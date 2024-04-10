@@ -35,8 +35,8 @@ flutter:
         - asset: fonts/Inter-ExtraBold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+    - family: Promt
+      fonts:
+        - asset: fonts/Prompt-Bold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700

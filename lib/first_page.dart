@@ -20,7 +20,7 @@ class FirstPage extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 15.0),
+              padding: const EdgeInsets.only(left: 35.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +30,7 @@ class FirstPage extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 70.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: "Promt",
                     ),
                   ),
                   Text(
@@ -38,7 +38,7 @@ class FirstPage extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 70.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: "Promt",
                     ),
                   ),
                   Text(
@@ -46,7 +46,7 @@ class FirstPage extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 70.0,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: "Promt",
                     ),
                   ),
                 ],
@@ -58,19 +58,21 @@ class FirstPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
               child: Container(
-                width: 350,
-                height: 65,
-                child: ElevatedButton(onPressed: () {
-                  // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                },
-                child: Text('เข้าสู่ระบบ',
-                style: TextStyle(
-                      color: Color.fromARGB(255, 49, 60, 128),
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                    ),),)
-                
-              ),
+                  width: 350,
+                  height: 65,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                    },
+                    child: Text(
+                      'เข้าสู่ระบบ',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 49, 60, 128),
+                        fontSize: 30.0,
+                        fontFamily: "Promt",
+                      ),
+                    ),
+                  )),
             ),
           ),
         ],
