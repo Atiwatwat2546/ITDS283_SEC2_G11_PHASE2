@@ -57,8 +57,9 @@ class FirstPage extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 30.0),
-              child: ElevatedButton(
-                onPressed: () {
+              child: Container(
+                width: 350,
+                child: ElevatedButton(onPressed: () {
                   // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
                 },
                 child: Text('เข้าสู่ระบบ',
@@ -66,7 +67,8 @@ class FirstPage extends StatelessWidget {
                       color: Color.fromARGB(255, 49, 60, 128),
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
-                    ),),
+                    ),),)
+                
               ),
             ),
           ),
