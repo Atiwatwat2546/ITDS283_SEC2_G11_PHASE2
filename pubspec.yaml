@@ -40,6 +40,9 @@ flutter:
     - family: Promt
       fonts:
         - asset: fonts/Prompt-Bold.ttf
+
+    - family: Promt-SemiBold
+      fonts:
         - asset: fonts/Prompt-SemiBold.ttf
        
 

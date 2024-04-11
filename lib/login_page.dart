@@ -5,15 +5,15 @@ import 'package:flutter/widgets.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Register Page',
+    title: 'Login Page',
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: RegistrationPage(),
+    home: LoginPage(),
   ));
 }
 
-class RegistrationPage extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
