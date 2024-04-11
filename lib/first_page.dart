@@ -14,6 +14,7 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
