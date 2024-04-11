@@ -16,6 +16,21 @@ class TodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Row(
+            children: [
+              BackButton(),
+              SizedBox(width: 2),
+              CircleAvatar(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                radius: 16,
+                child: Icon(Icons.person),
+              ),
+            ],
+          ),
+          onPressed: () {},
+        ),
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
         title: Column(
@@ -23,12 +38,15 @@ class TodoPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  'อติวัศว์ สารบรรณ',
-                  style: TextStyle(
-                    fontFamily: "Promt",
-                    fontSize: 30,
-                    color: Colors.white,
+                Expanded(
+                  child: Text(
+                    'อติวัศว์ สารบรรณ',
+                    style: TextStyle(
+                      fontFamily: "Promt",
+                      fontSize: 25,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 Icon(
@@ -42,7 +60,6 @@ class TodoPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
@@ -73,35 +90,101 @@ class TodoPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     SizedBox(height: 10.0),
                     ElevatedButton(
-                      onPressed: () {}, 
-                      child: Text('ข้อมูลส่วนตัว',
-                      style: TextStyle(
-                        color: Colors.white
-                      )),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 117, 150, 217),                         
-                          ),
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text('ข้อมูลส่วนตัว',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Promt',
+                                fontSize: 25,
+                              )),
+                        ],
                       ),
-                    SizedBox(height: 10.0),
-                    ElevatedButton(onPressed: () {}, 
-                      child: Text('แนะนำการใช้งาน',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Promt',
-                      )),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 117, 150, 217), 
+                        backgroundColor:
+                            const Color.fromARGB(255, 117, 150, 217),
+                        minimumSize: Size(double.infinity, 60),
                       ),
                     ),
-                    SizedBox(height: 10.0),
-                    ElevatedButton(onPressed: () {}, 
-                      child: Text('รายงานปัญหา')),
-                    SizedBox(height: 10.0),
-                    ElevatedButton(onPressed: () {}, 
-                      child: Text('เกี่ยวกับ')),
+                    SizedBox(height: 25.0),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text('แนะนำการใช้งาน',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Promt',
+                                fontSize: 25,
+                              )),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 117, 150, 217),
+                        minimumSize: Size(double.infinity, 60),
+                      ),
+                    ),
+                    SizedBox(height: 25.0),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            'รายงานปัญหา',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Promt',
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 117, 150, 217),
+                        minimumSize: Size(double.infinity, 60),
+                      ),
+                    ),
+                    SizedBox(height: 25.0),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Text(
+                            'เกี่ยวกับ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Promt',
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            const Color.fromARGB(255, 117, 150, 217),
+                        minimumSize: Size(double.infinity, 60),
+                      ),
+                    ),
                     SizedBox(height: 100.0),
-                    ElevatedButton(onPressed: () {}, 
-                      child: Text('ออกจากระบบ'))
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'ออกจากระบบ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Promt',
+                          fontSize: 25,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 50, 39, 39),
+                        minimumSize:
+                            Size(double.infinity, 60), //กำหนดค.กว้าง/สูง
+                      ),
+                    ),
                   ],
                 ),
               ),
