@@ -26,7 +26,7 @@ class RegistrationPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'สมัครสมาชิก',
+                  'เข้าสู่ระบบ',
                   style: TextStyle(
                     fontFamily: "Promt",
                     fontSize: 30,
@@ -35,7 +35,7 @@ class RegistrationPage extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  'สมัครสมาชิกเพื่อเข้าสู่ระบบของคุณ',
+                  'ลงชื่อเพื่อเข้าสู่ระบบของคุณ',
                   style: TextStyle(
                     fontFamily: "Promt",
                     fontSize: 18,
@@ -83,7 +83,7 @@ class RegistrationPage extends StatelessWidget {
                     size: 50,
                   ),
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 20.0),
                 // ช่องข้อความ Username
                 TextField(
                   decoration: InputDecoration(
@@ -102,26 +102,6 @@ class RegistrationPage extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 10.0),
-                TextField(
-                  decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(
-                      fontFamily: "Prompt-Thin.ttf",
-                      color: Color.fromARGB(255, 133, 133, 133),
-                    ), // เพิ่มสีให้กับข้อความ Label
-                    contentPadding: EdgeInsets.only(
-                        left: 20.0,
-                        bottom: 30), // ปรับระยะห่างระหว่างข้อความและขอบทางซ้าย
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(40.0),
-                      borderSide: BorderSide.none, // ปิดเส้นขอบ
-                    ),
-                    filled: true, // เปิดการเติมสีพื้นหลัง
-                    fillColor: Color.fromARGB(
-                        255, 206, 206, 206), // สีที่ใช้เติมพื้นหลัง
-                  ),
-                ),
                 SizedBox(height: 10.0),
 
                 TextField(
@@ -165,7 +145,7 @@ class RegistrationPage extends StatelessWidget {
                         horizontal: 50, vertical: 7), // ปรับขนาดของปุ่ม
                   ),
                   child: Text(
-                    'สมัครสมาชิก',
+                    'เข้าสู่ระบบ',
                     style: TextStyle(
                       fontFamily: "Promt",
                       color: Colors.white,
@@ -173,6 +153,20 @@ class RegistrationPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  'สมัครสมาชิก',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Promt-Thin',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+
                 SizedBox(height: 16.0),
                 Text(
                   ' หรือ ',
