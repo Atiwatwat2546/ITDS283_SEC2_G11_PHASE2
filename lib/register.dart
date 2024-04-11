@@ -37,7 +37,7 @@ class RegistrationPage extends StatelessWidget {
                 Text(
                   'สมัครสมาชิกเพื่อเข้าสู่ระบบของคุณ',
                   style: TextStyle(
-                    fontFamily: "Prompt",
+                    fontFamily: "Promt",
                     fontSize: 18,
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),
