@@ -137,6 +137,7 @@ class LoginPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // โค้ดสำหรับการสมัครสมาชิก
+                    Navigator.pushNamed(context, '/todo');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
@@ -156,15 +157,20 @@ class LoginPage extends StatelessWidget {
                 SizedBox(
                   height: 16.0,
                 ),
-                Text(
-                  'สมัครสมาชิก',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Promt-Thin',
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text(
+                    'สมัครสมาชิก',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Promt-Thin',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
 
                 SizedBox(height: 16.0),

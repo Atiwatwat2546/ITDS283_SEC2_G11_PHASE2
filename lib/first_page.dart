@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -64,7 +63,7 @@ class FirstPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      context.go('/LoginPage');
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text(
                       'เข้าสู่ระบบ',

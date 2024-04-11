@@ -157,6 +157,7 @@ class RegistrationPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // โค้ดสำหรับการสมัครสมาชิก
+                    Navigator.pushNamed(context, '/login');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(

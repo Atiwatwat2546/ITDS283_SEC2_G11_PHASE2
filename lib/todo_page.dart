@@ -42,7 +42,6 @@ class TodoPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
@@ -163,6 +162,7 @@ class TodoPage extends StatelessWidget {
                         ),
                         onPressed: () {
                           // โค้ดสำหรับการเปลี่ยนหน้า
+                          Navigator.pushNamed(context, '/todo');
                         },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
