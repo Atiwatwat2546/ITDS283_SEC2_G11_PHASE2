@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -12,6 +10,7 @@ void main() {
     home: TodoPage(),
   ));
 }
+
 class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -46,15 +45,6 @@ class TodoPage extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              height: 60, // กำหนดความสูงของแถบด้านล่าง
-              color: Colors.blue, // สีของแถบด้านล่าง
-            ),
-          ),
           Padding(
             padding: const EdgeInsets.all(0.0),
             child: Container(
@@ -63,7 +53,7 @@ class TodoPage extends StatelessWidget {
                 color: Color.fromARGB(255, 237, 237, 237),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(45),
-                  topRight: Radius.circular(45.0),
+                  topRight: Radius.circular(45),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -74,7 +64,6 @@ class TodoPage extends StatelessWidget {
                   ),
                 ],
               ),
-              
               child: Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: Column(
@@ -83,8 +72,8 @@ class TodoPage extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         hintText: 'Search',
-                        hintStyle:
-                            TextStyle(color: Colors.grey, fontFamily: "Promt-Thin"),
+                        hintStyle: TextStyle(
+                            color: Colors.grey, fontFamily: "Promt-Thin"),
                         prefixIcon: Padding(
                           padding: EdgeInsets.only(
                               left: 8.0,
@@ -94,10 +83,10 @@ class TodoPage extends StatelessWidget {
                             color: Colors.white,
                           ),
                         ),
-                        prefixIconConstraints:
-                            BoxConstraints(minWidth: 60), // กำหนดความกว้างของไอคอน
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                        prefixIconConstraints: BoxConstraints(
+                            minWidth: 60), // กำหนดความกว้างของไอคอน
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 20.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           borderSide: BorderSide.none,
@@ -106,7 +95,6 @@ class TodoPage extends StatelessWidget {
                         fillColor: Color.fromARGB(255, 26, 27, 63),
                       ),
                     ),
-              
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
@@ -140,6 +128,48 @@ class TodoPage extends StatelessWidget {
                 ),
               ),
             ),
+          ),
+          Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 49, 60, 128),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(45),
+                      topRight: Radius.circular(45),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 160,
+                bottom: 35,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Color.fromARGB(255, 154, 120, 255),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.person,
+                          size: 55,
+                        ),
+                        onPressed: () {
+                          // โค้ดสำหรับการเปลี่ยนหน้า
+                        },
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
