@@ -42,6 +42,7 @@ class TodoPage extends StatelessWidget {
         ),
         elevation: 0,
       ),
+      
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
