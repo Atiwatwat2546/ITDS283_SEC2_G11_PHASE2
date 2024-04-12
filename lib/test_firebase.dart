@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project/firebase_options.dart';
+import 'firebase_options.dart'; // Assuming this is the name of your configuration file
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,23 +35,29 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+// ในส่วนของ _MyHomePageState class
+
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
+  DateTime? selectedDate;
+  final TextEditingController timeController = TextEditingController();
+  DateTime? selectTime;
   final TextEditingController locationController = TextEditingController();
   final TextEditingController detailController = TextEditingController();
-  DateTime? selectedDate;
-  TimeOfDay? selectedTime;
-
+  // Function to create user data
   void createUser(
       {required String name,
-      required Timestamp? date,
-      required Timestamp? time,
-      String? location,
-      String? detail}) async {
+      required DateTime date,
+      required DateTime time,
+      required String location,
+      required String detail}) async {
+    // Collection reference
     final CollectionReference activity =
-        FirebaseFirestore.instance.collection('activity');
+        FirebaseFirestore.instance.collection('users');
 
     try {
+      // Add document
       await activity.add({
         'name': name,
         'date': date,
@@ -61,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'detail': detail,
       });
 
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('User $name created successfully'),
@@ -68,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     } catch (e) {
+      // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to create user: $e'),
@@ -143,7 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(
+                          left: 20.0), // กำหนดระยะห่างด้านซ้ายของข้อความ
                       child: Text(
                         'ชื่อกิจกรรม',
                         style: TextStyle(
@@ -156,7 +164,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 5),
                     TextFormField(
-                      controller: nameController,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(
@@ -165,15 +172,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 15.0,
-                        ),
+                            vertical: 10.0,
+                            horizontal: 15.0), // ปรับขนาดของช่องข้อความ
                         hintText: 'ป้อนชื่อกิจกรรม',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
+                              color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                         filled: true,
                         fillColor: Color.fromARGB(255, 120, 154, 228),
@@ -186,28 +191,40 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     SizedBox(height: 20),
+                    // TextButton(
+                    //   onPressed: () {
+                    //     showDatePicker(
+                    //       context: context,
+                    //       initialDate: DateTime.now(),
+                    //       firstDate: DateTime(1900),
+                    //       lastDate: DateTime.now(),
+                    //     ).then((pickedDate) {
+
+                    //     });
+                    //   },
+                    //   child: Text('Select Birthday'),
+                    // ),
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              final DateTime? picked = await showDatePicker(
+                              // โค้ดสำหรับเลือกวันที่
+                              final DateTime? pickedDate = await showDatePicker(
                                 context: context,
                                 initialDate: DateTime.now(),
-                                firstDate: DateTime(2000),
-                                lastDate: DateTime(2100),
+                                firstDate: DateTime(2022),
+                                lastDate: DateTime(2030),
                               );
-                              if (picked != null) {
+                              if (pickedDate != null &&
+                                  pickedDate != selectedDate) {
                                 setState(() {
-                                  selectedDate = picked;
+                                  selectedDate = pickedDate;
                                 });
                               }
                             },
                             child: Text(
-                              selectedDate == null
-                                  ? 'เลือกวันที่'
-                                  : DateFormat('yyyy-MM-dd')
-                                      .format(selectedDate!),
+                              'เลือกวันที่',
                               style: TextStyle(
                                 fontFamily: "Promt-SemiBold",
                               ),
@@ -218,20 +235,28 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () async {
-                              final TimeOfDay? picked = await showTimePicker(
+                              // โค้ดสำหรับเลือกเวลา
+                              final TimeOfDay? pickedTime =
+                                  await showTimePicker(
                                 context: context,
                                 initialTime: TimeOfDay.now(),
                               );
-                              if (picked != null) {
+                              if (pickedTime != null) {
+                                final DateTime now = DateTime.now();
+                                final DateTime selectedDateTime = DateTime(
+                                  now.year,
+                                  now.month,
+                                  now.day,
+                                  pickedTime.hour,
+                                  pickedTime.minute,
+                                );
                                 setState(() {
-                                  selectedTime = picked;
+                                  selectTime = selectedDateTime;
                                 });
                               }
                             },
                             child: Text(
-                              selectedTime == null
-                                  ? 'เลือกเวลา'
-                                  : selectedTime!.format(context),
+                              'เลือกเวลา',
                               style: TextStyle(
                                 fontFamily: "Promt-SemiBold",
                               ),
@@ -242,7 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(
+                          left: 20.0), // กำหนดระยะห่างด้านซ้ายของข้อความ
                       child: Text(
                         'ที่อยู่',
                         style: TextStyle(
@@ -255,7 +281,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 5),
                     TextFormField(
-                      controller: locationController,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(
@@ -264,15 +289,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 15.0,
-                        ),
+                            vertical: 10.0,
+                            horizontal: 15.0), // ปรับขนาดของช่องข้อความ
                         hintText: 'ป้อนทีอยู่',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
+                              color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                         filled: true,
                         fillColor: Color.fromARGB(255, 120, 154, 228),
@@ -286,7 +309,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(
+                          left: 20.0), // กำหนดระยะห่างด้านซ้ายของข้อความ
                       child: Text(
                         'รายละเอียด',
                         style: TextStyle(
@@ -299,7 +323,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     SizedBox(height: 5),
                     TextFormField(
-                      controller: detailController,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(
@@ -308,15 +331,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 15.0,
-                        ),
+                            vertical: 10.0,
+                            horizontal: 15.0), // ปรับขนาดของช่องข้อความ
                         hintText: 'ป้อนรายละเอียด',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
+                              color: Color.fromARGB(255, 255, 255, 255)),
                         ),
                         filled: true,
                         fillColor: Color.fromARGB(255, 120, 154, 228),
@@ -334,38 +355,46 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              final Timestamp dateTimestamp =
-                                  selectedDate != null
-                                      ? Timestamp.fromDate(selectedDate!)
-                                      : Timestamp.now();
-                              final Timestamp timeTimestamp =
-                                  selectedTime != null
-                                      ? Timestamp.fromMillisecondsSinceEpoch(
-                                          selectedTime!.hour * 3600 +
-                                              selectedTime!.minute * 60)
-                                      : Timestamp.now();
+                              // ตรวจสอบว่ามีข้อมูลทั้งหมดถูกกรอกหรือไม่
+                              if (nameController.text.isNotEmpty &&
+                                  selectedDate != null &&
+                                  selectTime != null &&
+                                  locationController.text.isNotEmpty &&
+                                  detailController.text.isNotEmpty) {
+                                // เรียกใช้งานฟังก์ชัน createUser() เพื่อสร้างข้อมูลใน Firebase Firestore
+                                createUser(
+                                  name: nameController.text,
+                                  date: selectedDate!,
+                                  time: selectTime!,
+                                  location: locationController.text,
+                                  detail: detailController.text,
+                                );
 
-                              createUser(
-                                name: nameController.text,
-                                date: dateTimestamp,
-                                time: timeTimestamp,
-                                location: locationController.text,
-                                detail: detailController.text,
-                              );
+                                // ล้างข้อมูลในช่องทั้งหมดหลังจากบันทึก
+                                nameController.clear();
+                                dateController.clear();
+                                timeController.clear();
+                                locationController.clear();
+                                detailController.clear();
 
-                              // ล้างข้อมูลและข้อความ
-                              nameController.clear();
-                              locationController.clear();
-                              detailController.clear();
-                              setState(() {
-                                selectedDate = null;
-                                selectedTime = null;
-                              });
+                                // ล้างข้อมูลที่เกี่ยวข้องใน state
+                                setState(() {
+                                  selectedDate = null;
+                                  selectTime = null;
+                                });
+                              } else {
+                                // แสดงข้อความแจ้งเตือนให้กรอกข้อมูลให้ครบถ้วน
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('กรุณากรอกข้อมูลให้ครบถ้วน'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 131, 193, 81),
-                            ),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 131, 193, 81)),
                             child: Text(
                               'บันทึก',
                               style: TextStyle(color: Colors.white),
@@ -376,6 +405,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
+                              // โค้ดสำหรับยกเลิก
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
@@ -407,6 +437,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 55,
                         ),
                         onPressed: () {
+                          // โค้ดสำหรับการเปลี่ยนหน้า
                           Navigator.pushNamed(context, '/todo');
                         },
                         color: Color.fromARGB(255, 255, 255, 255),
