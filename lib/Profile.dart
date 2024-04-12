@@ -74,16 +74,15 @@ class TodoPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Color.fromARGB(255, 129, 90, 246),
-                  child: Icon(
-                    Icons.person,
-                    color: const Color.fromARGB(255, 0, 0, 0),
-                    size: 60,
-                  ),
-                ),
-                                      SizedBox(height: 10.0),
-
+                        radius: 30,
+                        backgroundColor: Color.fromARGB(255, 129, 90, 246),
+                        child: Icon(
+                          Icons.person,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                          size: 60,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
                       SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
@@ -182,10 +181,9 @@ class TodoPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          
                         ],
                       ),
-                       SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
                           ////////////////////////////////////////
@@ -207,7 +205,7 @@ class TodoPage extends StatelessWidget {
                           minimumSize: Size(double.infinity, 55),
                         ),
                       ),
-                       SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
                           ////////////////////////////////////////
@@ -229,7 +227,7 @@ class TodoPage extends StatelessWidget {
                           minimumSize: Size(double.infinity, 55),
                         ),
                       ),
-                       SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
                           ////////////////////////////////////////
@@ -251,7 +249,7 @@ class TodoPage extends StatelessWidget {
                           minimumSize: Size(double.infinity, 55),
                         ),
                       ),
-                       SizedBox(height: 10.0),
+                      SizedBox(height: 10.0),
                       ElevatedButton(
                         onPressed: () {
                           ////////////////////////////////////////
