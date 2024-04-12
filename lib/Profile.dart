@@ -15,9 +15,8 @@ class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
         title: Column(
@@ -69,7 +68,213 @@ class TodoPage extends StatelessWidget {
                   ),
                 ],
               ),
-              
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Color.fromARGB(255, 129, 90, 246),
+                  child: Icon(
+                    Icons.person,
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    size: 60,
+                  ),
+                ),
+                                      SizedBox(height: 10.0),
+
+                      SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('ชื่อ : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('วันเกิด : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                ////////////////////////////////////////
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'เพศ : ',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Promt',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 117, 150, 217),
+                                minimumSize: Size(double.infinity, 55),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 30), // ระยะห่างระหว่างปุ่ม
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                ////////////////////////////////////////
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'อายุ : ',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Promt',
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 117, 150, 217),
+                                minimumSize: Size(double.infinity, 55),
+                              ),
+                            ),
+                          ),
+                          
+                        ],
+                      ),
+                       SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('อาชีพ : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                       SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('ที่อยู่ : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                       SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('อีเมล : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                       SizedBox(height: 10.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          ////////////////////////////////////////
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('เบอร์โทร : ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Promt',
+                                  fontSize: 16,
+                                )),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 117, 150, 217),
+                          minimumSize: Size(double.infinity, 55),
+                        ),
+                      ),
+                    ]),
+              ),
             ),
           ),
           Stack(
