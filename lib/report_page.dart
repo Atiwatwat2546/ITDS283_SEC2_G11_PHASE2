@@ -7,11 +7,11 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: TodoPage(),
+    home: ReportPage(),
   ));
 }
 
-class TodoPage extends StatelessWidget {
+class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

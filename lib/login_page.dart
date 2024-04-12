@@ -138,7 +138,7 @@ class LoginPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // โค้ดสำหรับการสมัครสมาชิก
-                    Navigator.pushNamed(context, '/todo');
+                    Navigator.pushNamed(context, '/home');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(

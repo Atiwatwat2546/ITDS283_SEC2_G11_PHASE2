@@ -15,7 +15,7 @@ class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
@@ -32,10 +32,15 @@ class TodoPage extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                Icon(
-                  Icons.settings,
-                  color: Colors.white,
-                  size: 40,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/setting');
+                  },
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.white,
+                    size: 40,
+                  ),
                 ),
               ],
             ),
@@ -100,6 +105,7 @@ class TodoPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // โค้ดสำหรับการสมัครสมาชิก
+                        Navigator.pushNamed(context, '/addwork');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(

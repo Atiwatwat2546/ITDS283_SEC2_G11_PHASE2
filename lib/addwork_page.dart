@@ -9,11 +9,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const AddworkPage());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class AddworkPage extends StatelessWidget {
+  const AddworkPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +43,10 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  void createUser(
+  void saveDataToFirebase(
       {required String name,
-      required Timestamp? date,
-      required Timestamp? time,
+      required Timestamp date,
+      required Timestamp time,
       String? location,
       String? detail}) async {
     final CollectionReference activity =
@@ -345,7 +345,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               selectedTime!.minute * 60)
                                       : Timestamp.now();
 
-                              createUser(
+                              saveDataToFirebase(
                                 name: nameController.text,
                                 date: dateTimestamp,
                                 time: timeTimestamp,
@@ -376,7 +376,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pushNamed(context, '/home');
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color.fromARGB(255, 177, 67, 67),
@@ -407,7 +407,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 55,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/todo');
+                          Navigator.pushNamed(context, '/home');
                         },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),

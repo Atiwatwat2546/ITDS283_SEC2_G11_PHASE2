@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,24 +7,15 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: TodoPage(),
+    home: AboutusPage(),
   ));
 }
 
-class TodoPage extends StatelessWidget {
+class AboutusPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Row(
-            children: [
-              BackButton(),
-              SizedBox(width: 2),
-            ],
-          ),
-          onPressed: () {},
-        ),
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
         title: Column(
