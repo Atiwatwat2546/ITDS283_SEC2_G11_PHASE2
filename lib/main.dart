@@ -6,7 +6,7 @@ import 'package:project/register.dart';
 import 'package:project/report_page.dart';
 import 'package:project/setting_page.dart';
 import 'package:project/todo_page.dart';
-import 'package:project/login_page.dart'; // Import your login page file here
+import 'package:project/login_page.dart'; 
 
 
 void main() {
@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         '/aboutus':(context) => AboutusPage(),
         '/addwork':(context) => AddworkPage(),
         '/report':(context) => ReportPage(),
-
       },
     );
   }
