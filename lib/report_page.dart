@@ -84,19 +84,77 @@ class TodoPage extends StatelessWidget {
                     Text(
                       'ปัญหาที่ผู้ใช้พบ :',
                       style: TextStyle(
+                        fontFamily: 'Promt-Medium',
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 10.0),
+                    TextFormField(
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 15.0), // ปรับขนาดของช่องข้อความ
+                        hintText: 'ระบุปัญหาที่พบ',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 120, 154, 228),
+                        hintStyle: TextStyle(
+                          fontFamily: 'Promt-Thin',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 206, 206, 206),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30.0),
                     Text(
                       'เราจะปรับปรุงให้ดีขึ้นได้อย่างไร :',
                       style: TextStyle(
+                        fontFamily: 'Promt-Medium',
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 200.0),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black,
+                      ),
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 15.0), // ปรับขนาดของช่องข้อความ
+                        hintText: 'กรอกความคิดเห็นเพิ่มเติม',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        filled: true,
+                        fillColor: Color.fromARGB(255, 120, 154, 228),
+                        hintStyle: TextStyle(
+                          fontFamily: 'Promt-Thin',
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 206, 206, 206),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 50.0),
                     ElevatedButton(
                       onPressed: () {},
                       child: Text(
