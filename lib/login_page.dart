@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
+import 'package:project/register_page.dart';
+import 'package:project/todo_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,11 +13,16 @@ void main() {
   ));
 }
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 150,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
@@ -88,7 +93,7 @@ class LoginPage extends StatelessWidget {
                 // ช่องข้อความ Username
                 TextField(
                   decoration: InputDecoration(
-                    labelText: 'Username',
+                    labelText: 'อีเมล',
                     labelStyle: TextStyle(
                       fontFamily: "Prompt-Thin.ttf",
                       color: Color.fromARGB(255, 133, 133, 133),
@@ -107,7 +112,7 @@ class LoginPage extends StatelessWidget {
 
                 TextField(
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: 'รหัสผ่าน',
                     labelStyle: TextStyle(
                       fontFamily: "Prompt-Thin.ttf",
                       color: Color.fromARGB(255, 133, 133, 133),
@@ -137,9 +142,12 @@ class LoginPage extends StatelessWidget {
                 SizedBox(height: 10.0),
                 ElevatedButton(
                   onPressed: () {
-                    // โค้ดสำหรับการสมัครสมาชิก
-                    Navigator.pushNamed(context, '/home');
-                  },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
+                    },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(
                         255, 49, 60, 128), // สีพื้นหลังของปุ่ม
@@ -160,8 +168,12 @@ class LoginPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return RegistrationPage();
+                      }));
+                    },
                   child: Text(
                     'สมัครสมาชิก',
                     style: TextStyle(

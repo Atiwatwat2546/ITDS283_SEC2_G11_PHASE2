@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/addwork_page.dart';
+import 'package:project/setting_page.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -34,8 +37,12 @@ class TodoPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/setting');
-                  },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SettingPage();
+                      }));
+                    },
                   child: Icon(
                     Icons.settings,
                     color: Colors.white,
@@ -104,9 +111,12 @@ class TodoPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                        // โค้ดสำหรับการสมัครสมาชิก
-                        Navigator.pushNamed(context, '/addwork');
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return AddworkPage();
+                      }));
+                    },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(
                             255, 26, 27, 63), // สีพื้นหลังของปุ่ม
@@ -168,9 +178,12 @@ class TodoPage extends StatelessWidget {
                           size: 55,
                         ),
                         onPressed: () {
-                          // โค้ดสำหรับการเปลี่ยนหน้า
-                          Navigator.pushNamed(context, '/todo');
-                        },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
+                    },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),

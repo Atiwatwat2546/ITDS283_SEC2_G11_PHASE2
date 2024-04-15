@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/firebase_options.dart';
+import 'package:project/todo_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -376,7 +377,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/home');
+                              // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return TodoPage();
+                              }));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color.fromARGB(255, 177, 67, 67),
@@ -407,8 +412,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 55,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/home');
-                        },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
+                    },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),

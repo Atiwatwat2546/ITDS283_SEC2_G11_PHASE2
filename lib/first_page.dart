@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/login_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -14,7 +15,7 @@ class FirstPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
         children: [
@@ -64,7 +65,10 @@ class FirstPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginPage();
+                      }));
                     },
                     child: Text(
                       'เข้าสู่ระบบ',

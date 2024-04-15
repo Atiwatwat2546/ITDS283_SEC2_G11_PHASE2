@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:project/Profile_page.dart';
+import 'package:project/aboutus_page.dart';
+import 'package:project/login_page.dart';
+import 'package:project/recommend.dart';
+import 'package:project/report_page.dart';
+import 'package:project/todo_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -30,7 +36,13 @@ class SettingPage extends StatelessWidget {
               ),
             ],
           ),
-          onPressed: () {},
+          onPressed: () {
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SettingPage();
+                      }));
+                    },
         ),
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
@@ -54,7 +66,13 @@ class SettingPage extends StatelessWidget {
                 color: Colors.white,
                 size: 40,
               ),
-              onPressed: () {},
+              onPressed: () {
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SettingPage();
+                      }));
+                    },
             ),
           ],
         ),
@@ -91,8 +109,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                        ////////////////////////////////////////
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ProfilePage();
+                      }));
+                    },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -113,8 +135,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                        ////////////////////////////////////////
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return RecommandPage();
+                      }));
+                    },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -135,8 +161,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/report');
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return ReportPage();
+                      }));
+                    },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -159,8 +189,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/aboutus');
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return AboutusPage();
+                      }));
+                    },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -183,8 +217,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 170.0),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/');
-                      },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoginPage();
+                      }));
+                    },
                       child: Text(
                         'ออกจากระบบ',
                         style: TextStyle(
@@ -233,8 +271,11 @@ class SettingPage extends StatelessWidget {
                       size: 55,
                     ),
                     onPressed: () {
-                      // โค้ดสำหรับการเปลี่ยนหน้า
-                      Navigator.pushNamed(context, '/home');
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
                     },
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/todo_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -7,11 +8,11 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: SettingPage(),
+    home: RecommandPage(),
   ));
 }
 
-class SettingPage extends StatelessWidget {
+class RecommandPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +24,7 @@ class SettingPage extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'แนะนำการใช้แอพ',
+                'แนะนำการใช้งาน',
                 style: TextStyle(
                   fontFamily: "Promt",
                   fontSize: 25,
@@ -200,8 +201,11 @@ class SettingPage extends StatelessWidget {
                       size: 55,
                     ),
                     onPressed: () {
-                      // โค้ดสำหรับการเปลี่ยนหน้า
-                      Navigator.pushNamed(context, '/home');
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
                     },
                     color: Color.fromARGB(255, 255, 255, 255),
                   ),

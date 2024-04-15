@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/todo_page.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -7,11 +8,11 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: TodoPage(),
+    home: ProfilePage(),
   ));
 }
 
-class TodoPage extends StatelessWidget {
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -307,8 +308,12 @@ class TodoPage extends StatelessWidget {
                           size: 55,
                         ),
                         onPressed: () {
-                          // โค้ดสำหรับการเปลี่ยนหน้า
-                        },
+                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TodoPage();
+                      }));
+                    },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
