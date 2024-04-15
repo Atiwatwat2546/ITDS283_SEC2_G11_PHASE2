@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:project/login_page.dart';
 import 'package:project/model/profile.dart';
 
 void main() {
@@ -115,33 +117,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'ชื่อ',
-                                labelStyle: TextStyle(
-                                  fontFamily: "Prompt-Thin.ttf",
-                                  color: Color.fromARGB(255, 133, 133, 133),
-                                ),
-                                contentPadding:
-                                    EdgeInsets.only(left: 20.0, bottom: 30),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'โปรดป้อนชื่อ';
-                                }
-                                return null;
-                              },
-                              onSaved: (name) {
-                                profile.name = name;
-                              },
-                            ),
-                            SizedBox(height: 10.0),
-                            TextFormField(
+                              validator: MultiValidator([
+                                RequiredValidator(errorText: "โปรดป้อนอีเมล"),
+                                EmailValidator(
+                                    errorText: "รูปแบบอีเมลไม่ถูกต้อง")
+                              ]),
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 labelText: 'อีเมล',
@@ -158,11 +138,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 filled: true,
                                 fillColor: Color.fromARGB(255, 206, 206, 206),
                               ),
-                              validator: MultiValidator([
-                                RequiredValidator(errorText: "โปรดป้อนอีเมล"),
-                                EmailValidator(
-                                    errorText: "รูปแบบอีเมลไม่ถูกต้อง"),
-                              ]),
+
                               // Save logic for the field
                               onSaved: (email) {
                                 profile.email = email;
@@ -170,6 +146,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
+                              validator: RequiredValidator(
+                                  errorText: "โปรดป้อนรหัสผ่าน"),
                               obscureText: true,
                               decoration: InputDecoration(
                                 labelText: 'รหัสผ่าน',
@@ -195,13 +173,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   ),
                                 ),
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'โปรดป้อนรหัสผ่าน';
-                                }
-                                // Add password validation logic if necessary
-                                return null;
-                              },
+
                               // Save logic for the field
                               onSaved: (password) {
                                 profile.password = password;
@@ -213,16 +185,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
                                   print(
-                                      "name = ${profile.name} email = ${profile.email} password = ${profile.password}");
+                                      " email = ${profile.email} password = ${profile.password}");
 
                                   try {
                                     await FirebaseAuth.instance
                                         .createUserWithEmailAndPassword(
                                             email: profile.email!,
-                                            password: profile.password!);
-                                    formKey.currentState!.reset();
+                                            password: profile.password!)
+                                        .then((value) {
+                                      formKey.currentState!.reset();
+                                      Fluttertoast.showToast(
+                                          msg: "สร้างบัญชีผู้ใช้สำเร็จ",
+                                          gravity: ToastGravity.CENTER);
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return LoginPage();
+                                      }));
+                                    });
                                   } on FirebaseAuthException catch (e) {
+                                    print(e.code);
                                     print(e.message);
+                                    String message;
+                                    if (e.code == 'email-already-in-use') {
+                                      message = "บัญชีนี้มีอยู่แล้ว";
+                                    } else if (e.message == 'weak-password') {
+                                      message =
+                                          "รหัสผ่านต้องมีความยาว 6 ตัวอักษรขึ้นไป";
+                                    } else {
+                                      message = e
+                                          .message!; // ใช้ข้อความข้อผิดพลาดที่ส่งกลับจาก Firebase
+                                    }
+                                    Fluttertoast.showToast(
+                                      msg: message,
+                                      gravity: ToastGravity.CENTER,
+                                    );
                                   }
                                 }
                               },
@@ -241,6 +237,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 ),
                               ),
                             ),
+                            SizedBox(height: 16.0),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacement(context,
+                                  MaterialPageRoute(builder: (context) {
+                                    return LoginPage();
+                                  }));
+                            },
+                            child: Text(
+                              'เข้าสู่ระบบ',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Promt-Thin',
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                             SizedBox(height: 16.0),
                             Text(
                               ' หรือ ',

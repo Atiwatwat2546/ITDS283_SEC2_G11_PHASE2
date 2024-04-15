@@ -112,7 +112,7 @@ class TodoPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                       // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
+                      Navigator.pushReplacement(context,
                           MaterialPageRoute(builder: (context) {
                         return AddworkPage();
                       }));
