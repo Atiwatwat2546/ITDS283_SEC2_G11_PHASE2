@@ -14,6 +14,14 @@ void main() {
 class TodoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var key = null;
+    var key2 = null;
+    var key3 = null;
+    var key4 = null;
+    var key5 = null;
+    var key6 = null;
+    var key7 = null;
+    var key8 = null;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -91,7 +99,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('ชื่อ: $value');
-                        },
+                        }, key: key2,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -100,7 +108,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('วันเกิด: $value');
-                        },
+                        }, key: key,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -109,7 +117,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('เพศ: $value');
-                        },
+                        }, key: key3,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -118,7 +126,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('อายุ: $value');
-                        },
+                        }, key: key4,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -127,7 +135,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('อาชีพ: $value');
-                        },
+                        }, key: key5,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -136,7 +144,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('ที่อยู่: $value');
-                        },
+                        }, key: key6,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -145,7 +153,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('อีเมล: $value');
-                        },
+                        }, key: key7,
                       ),
                       SizedBox(height: 10.0),
                       EditableField(
@@ -154,7 +162,7 @@ class TodoPage extends StatelessWidget {
                         onChanged: (value) {
                           // โค้ดสำหรับการอัพเดตข้อมูล
                           print('เบอร์โทร: $value');
-                        },
+                        }, key: key8,
                       ),
                     ]),
               ),
@@ -215,10 +223,10 @@ class EditableField extends StatefulWidget {
   final Function(String) onChanged;
 
   const EditableField({
-    Key key,
-    @required this.labelText,
-    @required this.initialValue,
-    @required this.onChanged,
+    required Key key,
+    required this.labelText,
+    required this.initialValue,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -226,7 +234,7 @@ class EditableField extends StatefulWidget {
 }
 
 class _EditableFieldState extends State<EditableField> {
-  TextEditingController _controller;
+  late TextEditingController _controller;
 
   @override
   void initState() {
@@ -241,9 +249,12 @@ class _EditableFieldState extends State<EditableField> {
         final result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EditFieldScreen(
-              initialValue: widget.initialValue,
-            ),
+            builder: (context) {
+              var key = null;
+              return EditFieldScreen(
+              initialValue: widget.initialValue, key: key,
+            );
+            },
           ),
         );
         if (result != null) {
@@ -283,14 +294,14 @@ class _EditableFieldState extends State<EditableField> {
 class EditFieldScreen extends StatefulWidget {
   final String initialValue;
 
-  const EditFieldScreen({Key key, @required this.initialValue}) : super(key: key);
+  const EditFieldScreen({required Key key, required this.initialValue}) : super(key: key);
 
   @override
   _EditFieldScreenState createState() => _EditFieldScreenState();
 }
 
 class _EditFieldScreenState extends State<EditFieldScreen> {
-  TextEditingController _controller;
+  late TextEditingController _controller;
 
   @override
   void initState() {
