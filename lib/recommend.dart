@@ -132,21 +132,22 @@ class RecommandPage extends StatelessWidget {
                           fontSize: 14,
                         )),
                         Text(
-                        '2. กด//////////////////////เพื่อใส่กิจกรรมต่าง ๆ ที่จะต้องทำ',
+                        '2. กดปุ่ม " + เพิ่มงาน" เพื่อใส่กิจกรรมต่าง ๆ ที่จะต้องทำ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'Promt-Semidium',
+                          fontSize: 14,
+                        )
+                      ),
+                        Text(
+                        '3. ใช้ข้อมูลกิจกรรมเสร็จแล้วกดปุ่ม "บันทึก" ',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
                           fontSize: 14,
                         )),
                         Text(
-                        '3. ใช้ข้อมูลกิจกรรมเสร็จแล้วกด //////////// ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
-                          fontSize: 14,
-                        )),
-                        Text(
-                        'หากต้องการแก้ไช หรือยกเลิกกิจกรรมที่บันทึกไป',
+                        'หากต้องการแก้ไข หรือยกเลิกกิจกรรมที่บันทึกไป',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Bold',
@@ -160,7 +161,7 @@ class RecommandPage extends StatelessWidget {
                           fontSize: 14,
                         )),
                         Text(
-                        '2. กด ///////// เพื่อทำการแก้ไขข้อมูล และกด /////////// เพื่อทำการลบข้อมูลที่ไม่ต้องการ',
+                        '2. กดปุ่ม "แก้ไข" เพื่อทำการแก้ไขข้อมูล และกดปุ่ม "ลบ" เพื่อทำการลบข้อมูลที่ไม่ต้องการ',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
