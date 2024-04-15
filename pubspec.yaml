@@ -35,7 +35,7 @@ flutter:
   assets:
     - assets/facebook_logo.png
     - assets/google_logo.png
-    - assets/add.PNGs
+    - assets/add.PNG
   #   - images/a_dot_ham.jpeg
 
   fonts:
