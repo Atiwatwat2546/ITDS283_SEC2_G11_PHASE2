@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  void saveDataToFirebase(
+  void saveDataToFirebase(BuildContext context, // เพิ่มพารามิเตอร์นี้
       {required String name,
       required Timestamp date,
       required Timestamp time,
@@ -347,6 +347,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       : Timestamp.now();
 
                               saveDataToFirebase(
+                                context, // ส่ง BuildContext มาที่นี่
                                 name: nameController.text,
                                 date: dateTimestamp,
                                 time: timeTimestamp,
@@ -412,12 +413,12 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 55,
                         ),
                         onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return TodoPage();
-                      }));
-                    },
+                          // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return TodoPage();
+                          }));
+                        },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),

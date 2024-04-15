@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -208,12 +209,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ),
                             SizedBox(height: 10.0),
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   formKey.currentState!.save();
                                   print(
                                       "name = ${profile.name} email = ${profile.email} password = ${profile.password}");
-                                  formKey.currentState!.reset();
+
+                                  try {
+                                    await FirebaseAuth.instance
+                                        .createUserWithEmailAndPassword(
+                                            email: profile.email!,
+                                            password: profile.password!);
+                                    formKey.currentState!.reset();
+                                  } on FirebaseAuthException catch (e) {
+                                    print(e.message);
+                                  }
                                 }
                               },
                               style: ElevatedButton.styleFrom(

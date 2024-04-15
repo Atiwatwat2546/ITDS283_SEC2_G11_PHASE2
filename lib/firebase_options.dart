@@ -41,47 +41,46 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB-60f6lo05TccNldu1wGH-l_JekwxEPoU',
-    appId: '1:371227749929:web:3384b5a210f52c9e7c3638',
-    messagingSenderId: '371227749929',
-    projectId: 'itds283-9edc7',
-    authDomain: 'itds283-9edc7.firebaseapp.com',
-    storageBucket: 'itds283-9edc7.appspot.com',
+    apiKey: 'AIzaSyCfGMgwfewGofZfMTbuiy-1Ety3Ari1SkQ',
+    appId: '1:608457991666:web:bc4a0334217f4be8c4376b',
+    messagingSenderId: '608457991666',
+    projectId: 'project-fd376',
+    authDomain: 'project-fd376.firebaseapp.com',
+    storageBucket: 'project-fd376.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCPzm9ibW_1DDQGFt2XZtG3Fk7B-lEtWUk',
-    appId: '1:371227749929:android:6a5c1c8313dfaf767c3638',
-    messagingSenderId: '371227749929',
-    projectId: 'itds283-9edc7',
-    storageBucket: 'itds283-9edc7.appspot.com',
+    apiKey: 'AIzaSyDZd8i10sAqOz32PbtztSrNPhvsYurbA0w',
+    appId: '1:608457991666:android:d16740b60a617ba9c4376b',
+    messagingSenderId: '608457991666',
+    projectId: 'project-fd376',
+    storageBucket: 'project-fd376.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA3vW-hia27_Yyl3MwKJVvSA_XXlfIxLhw',
-    appId: '1:371227749929:ios:2ed479731f2826d27c3638',
-    messagingSenderId: '371227749929',
-    projectId: 'itds283-9edc7',
-    storageBucket: 'itds283-9edc7.appspot.com',
+    apiKey: 'AIzaSyBVN6r0kamzcineokAtJuFPErlO13DD0KU',
+    appId: '1:608457991666:ios:d3816de460b4e940c4376b',
+    messagingSenderId: '608457991666',
+    projectId: 'project-fd376',
+    storageBucket: 'project-fd376.appspot.com',
     iosBundleId: 'com.example.project',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA3vW-hia27_Yyl3MwKJVvSA_XXlfIxLhw',
-    appId: '1:371227749929:ios:2ed479731f2826d27c3638',
-    messagingSenderId: '371227749929',
-    projectId: 'itds283-9edc7',
-    storageBucket: 'itds283-9edc7.appspot.com',
+    apiKey: 'AIzaSyBVN6r0kamzcineokAtJuFPErlO13DD0KU',
+    appId: '1:608457991666:ios:d3816de460b4e940c4376b',
+    messagingSenderId: '608457991666',
+    projectId: 'project-fd376',
+    storageBucket: 'project-fd376.appspot.com',
     iosBundleId: 'com.example.project',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyB-60f6lo05TccNldu1wGH-l_JekwxEPoU',
-    appId: '1:371227749929:web:c5249ab208249c8c7c3638',
-    messagingSenderId: '371227749929',
-    projectId: 'itds283-9edc7',
-    authDomain: 'itds283-9edc7.firebaseapp.com',
-    storageBucket: 'itds283-9edc7.appspot.com',
+    apiKey: 'AIzaSyCfGMgwfewGofZfMTbuiy-1Ety3Ari1SkQ',
+    appId: '1:608457991666:web:b1aed62c0363ad26c4376b',
+    messagingSenderId: '608457991666',
+    projectId: 'project-fd376',
+    authDomain: 'project-fd376.firebaseapp.com',
+    storageBucket: 'project-fd376.appspot.com',
   );
-
 }
