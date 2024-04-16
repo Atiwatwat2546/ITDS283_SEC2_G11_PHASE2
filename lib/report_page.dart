@@ -211,12 +211,11 @@ class ReportPage extends StatelessWidget {
                           size: 55,
                         ),
                         onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return TodoPage();
-                      }));
-                    },
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return TodoPage();
+                          }));
+                        },
                         color: Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),

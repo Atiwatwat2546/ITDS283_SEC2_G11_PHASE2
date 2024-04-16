@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project/firebase_options.dart';
+import 'package:project/model/activity.dart';
 import 'package:project/todo_page.dart';
 
 Future<void> main() async {
@@ -44,39 +45,34 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  void saveDataToFirebase(BuildContext context, // เพิ่มพารามิเตอร์นี้
-      {required String name,
-      required Timestamp date,
-      required Timestamp time,
-      String? location,
-      String? detail}) async {
-    final CollectionReference activity =
-        FirebaseFirestore.instance.collection('activity');
+  void saveDataToFirebase(BuildContext context, Activity activity) async {
+  final CollectionReference activityCollection =
+      FirebaseFirestore.instance.collection('activity');
 
-    try {
-      await activity.add({
-        'name': name,
-        'date': date,
-        'time': time,
-        'location': location,
-        'detail': detail,
-      });
+  try {
+    await activityCollection.add(activity.toMap());
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('User $name created successfully'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to create user: $e'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('กิจกรรม "${activity.name}" ถูกสร้างเรียบร้อยแล้ว'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    // เมื่อบันทึกข้อมูลเรียบร้อยแล้ว ทำการเปลี่ยนหน้าไปยัง TodoPage()
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return TodoPage();
+    }));
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('การสร้างกิจกรรม "${activity.name}" ล้มเหลว: $e'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'ชื่อกิจกรรม',
+                        'ชื่อเรื่อง',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -204,14 +200,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                 });
                               }
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(
+                                  255, 120, 154, 228), // สีพื้นหลังของปุ่ม
+                            ),
                             child: Text(
                               selectedDate == null
                                   ? 'เลือกวันที่'
                                   : DateFormat('yyyy-MM-dd')
                                       .format(selectedDate!),
                               style: TextStyle(
-                                fontFamily: "Promt-SemiBold",
-                              ),
+                                  fontFamily: "Promt-SemiBold",
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -229,13 +229,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                 });
                               }
                             },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color.fromARGB(
+                                  255, 120, 154, 228), // สีพื้นหลังของปุ่ม
+                            ),
                             child: Text(
                               selectedTime == null
                                   ? 'เลือกเวลา'
                                   : selectedTime!.format(context),
                               style: TextStyle(
-                                fontFamily: "Promt-SemiBold",
-                              ),
+                                  fontFamily: "Promt-SemiBold",
+                                  color: Colors.white),
                             ),
                           ),
                         ),
@@ -335,25 +339,27 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              final Timestamp dateTimestamp =
-                                  selectedDate != null
-                                      ? Timestamp.fromDate(selectedDate!)
-                                      : Timestamp.now();
-                              final Timestamp timeTimestamp =
-                                  selectedTime != null
-                                      ? Timestamp.fromMillisecondsSinceEpoch(
-                                          selectedTime!.hour * 3600 +
-                                              selectedTime!.minute * 60)
-                                      : Timestamp.now();
+                              final Timestamp datetimeTimestamp =
+                                  Timestamp.fromDate(DateTime(
+                                selectedDate!.year,
+                                selectedDate!.month,
+                                selectedDate!.day,
+                                selectedTime!.hour,
+                                selectedTime!.minute,
+                              ));
 
-                              saveDataToFirebase(
-                                context, // ส่ง BuildContext มาที่นี่
+                              Activity newActivity = Activity(
                                 name: nameController.text,
-                                date: dateTimestamp,
-                                time: timeTimestamp,
-                                location: locationController.text,
-                                detail: detailController.text,
+                                datetime: datetimeTimestamp,
+                                location: locationController.text.isNotEmpty
+                                    ? locationController.text
+                                    : '',
+                                detail: detailController.text.isNotEmpty
+                                    ? detailController.text
+                                    : '',
                               );
+
+                              saveDataToFirebase(context, newActivity);
 
                               // ล้างข้อมูลและข้อความ
                               nameController.clear();
@@ -378,8 +384,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(
                           child: ElevatedButton(
                             onPressed: () {
-                              // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                              Navigator.push(context,
+                              Navigator.pushReplacement(context,
                                   MaterialPageRoute(builder: (context) {
                                 return TodoPage();
                               }));
@@ -413,8 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           size: 55,
                         ),
                         onPressed: () {
-                          // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                          Navigator.push(context,
+                          Navigator.pushReplacement(context,
                               MaterialPageRoute(builder: (context) {
                             return TodoPage();
                           }));

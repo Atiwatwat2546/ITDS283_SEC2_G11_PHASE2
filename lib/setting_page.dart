@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:project/Profile_page.dart';
 import 'package:project/aboutus_page.dart';
-import 'package:project/login_page.dart';
+import 'package:project/first_page.dart';
 import 'package:project/recommend.dart';
 import 'package:project/report_page.dart';
 import 'package:project/todo_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -18,32 +19,12 @@ void main() {
 }
 
 class SettingPage extends StatelessWidget {
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: IconButton(
-          padding: EdgeInsets.only(
-              left: 30.0), // เพิ่ม padding เพื่อขยับไอคอนไปทางซ้าย
-          icon: Row(
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-                radius: 16,
-                child: Icon(Icons.person),
-              ),
-            ],
-          ),
-          onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return SettingPage();
-                      }));
-                    },
-        ),
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
         title: Row(
@@ -67,12 +48,11 @@ class SettingPage extends StatelessWidget {
                 size: 40,
               ),
               onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return SettingPage();
-                      }));
-                    },
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) {
+                  return SettingPage();
+                }));
+              },
             ),
           ],
         ),
@@ -109,12 +89,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ProfilePage();
-                      }));
-                    },
+                        // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ProfilePage();
+                        }));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -135,12 +115,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return RecommandPage();
-                      }));
-                    },
+                        // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return RecommandPage();
+                        }));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -161,12 +141,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return ReportPage();
-                      }));
-                    },
+                        // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return ReportPage();
+                        }));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -189,12 +169,12 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 10.0),
                     ElevatedButton(
                       onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return AboutusPage();
-                      }));
-                    },
+                        // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return AboutusPage();
+                        }));
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -217,12 +197,13 @@ class SettingPage extends StatelessWidget {
                     SizedBox(height: 170.0),
                     ElevatedButton(
                       onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return LoginPage();
-                      }));
-                    },
+                        auth.signOut().then((value) {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return FirstPage();
+                          }));
+                        });
+                      },
                       child: Text(
                         'ออกจากระบบ',
                         style: TextStyle(
@@ -257,32 +238,31 @@ class SettingPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 160,
-            bottom: 35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Color.fromARGB(255, 154, 120, 255),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.person,
-                      size: 55,
+                left: 160,
+                bottom: 35,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Color.fromARGB(255, 154, 120, 255),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.person,
+                          size: 55,
+                        ),
+                        onPressed: () {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (context) {
+                            return TodoPage();
+                          }));
+                        },
+                        color: Color.fromARGB(255, 255, 255, 255),
+                      ),
                     ),
-                    onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return TodoPage();
-                      }));
-                    },
-                    color: Color.fromARGB(255, 255, 255, 255),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
         ],
       ),
     );
