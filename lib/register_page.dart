@@ -116,6 +116,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                               ),
                             ),
                             SizedBox(height: 10.0),
+                            
                             TextFormField(
                               validator: MultiValidator([
                                 RequiredValidator(errorText: "โปรดป้อนอีเมล"),

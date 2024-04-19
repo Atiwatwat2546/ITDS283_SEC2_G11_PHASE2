@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+    
   cupertino_icons: ^1.0.6
   http: ^1.2.1
   url_launcher: ^6.0.19
@@ -22,6 +23,8 @@ dependencies:
   form_field_validator: ^1.1.0
   firebase_auth: ^4.19.1
   fluttertoast: ^8.2.5
+  flutter_local_notifications: ^8.2.0
+  firebase_messaging: ^14.8.2
 
 dev_dependencies:
   yaml: ^3.0.0
