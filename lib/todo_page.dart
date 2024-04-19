@@ -4,8 +4,6 @@ import 'package:project/addwork_page.dart';
 import 'package:project/setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'firebase_messaging.dart'; // import FirebaseMessagingService
 import 'dart:async'; // นำเข้าแพ็กเกจ dart:async เพื่อใช้งานคลาส Timer
 
 
@@ -40,53 +38,16 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
   late Timer _timer;
-  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  late FirebaseMessagingService _firebaseMessagingService;
+
 
   @override
   void initState() {
     super.initState();
     _startTimer();
-    _initializeNotifications();
-    _firebaseMessagingService = FirebaseMessagingService();
-    _firebaseMessagingService.setupFirebaseMessaging();
+
   }
 
-  void _initializeNotifications() {
-    _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
-    final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
-
-    _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: _onSelectNotification,
-    );
-  }
-
-  Future<void> _showNotification() async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'your channel id',
-      'your channel name',
-      'your channel description',
-      importance: Importance.max,
-      priority: Priority.high,
-      styleInformation: DefaultStyleInformation(true, true),
-    );
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-
-    await _flutterLocalNotificationsPlugin.show(
-      0,
-      'กิจกรรมใกล้เข้ามาแล้ว',
-      'กิจกรรมใกล้เข้ามาแล้ว โปรดตรวจสอบ',
-      platformChannelSpecifics,
-      payload: 'item x',
-    );
-  }
+  
 
   @override
   void dispose() {
@@ -95,21 +56,28 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final now = DateTime.now();
-      final oneHourAhead = now.add(const Duration(hours: 1));
+  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    final now = DateTime.now();
 
-      FirebaseFirestore.instance
-          .collection('activity')
-          .where('datetime', isGreaterThan: now, isLessThan: oneHourAhead)
-          .get()
-          .then((querySnapshot) {
-        if (querySnapshot.docs.isNotEmpty) {
-          _showNotification();
-        }
-      });
+
+    FirebaseFirestore.instance
+        .collection('activity')
+        .where('datetime', isLessThan: now)
+        .get()
+        .then((querySnapshot) {
+      if (querySnapshot.docs.isNotEmpty) {
+        querySnapshot.docs.forEach((doc) {
+          doc.reference.delete().then((_) {
+            print("รายการ ${doc.id} ถูกลบแล้ว");
+          }).catchError((error) {
+            print("เกิดข้อผิดพลาดในการลบรายการ ${doc.id}: $error");
+          });
+        });
+      }
     });
-  }
+  });
+}
+
 
   Future<void> _onSelectNotification(String? payload) async {
     // Handle notification click here

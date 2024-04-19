@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'ชื่อเรื่อง',
+                        'ชื่อกิจกรรม',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -249,7 +249,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                        'ที่อยู่',
+                        'สถานที่',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -272,7 +272,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           vertical: 10.0,
                           horizontal: 15.0,
                         ),
-                        hintText: 'ป้อนทีอยู่',
+                        hintText: 'ป้อนสถานที่',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide(
