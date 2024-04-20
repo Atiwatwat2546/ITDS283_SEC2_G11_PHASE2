@@ -5,12 +5,14 @@ class Activity {
   final Timestamp datetime;
   final String location;
   final String detail;
+  String uid;
 
   Activity({
     required this.name,
     required this.datetime,
     required this.location,
     required this.detail,
+    required this.uid,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,7 +21,7 @@ class Activity {
       'datetime': datetime,
       'location': location,
       'detail': detail,
+      'uid': uid,
     };
   }
 }
-

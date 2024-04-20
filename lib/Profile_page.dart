@@ -1,19 +1,21 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project/firebase_options.dart';
-import 'package:project/model/user_info.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart'; // เพิ่ม import นี้
+import 'package:project/edit_Profile_page.dart';
+import 'dart:async';
+
+import 'package:project/todo_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const ProfilePage());
+  await Firebase.initializeApp();
+  runApp(const TODO());
 }
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class TODO extends StatelessWidget {
+  const TODO({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,54 +24,58 @@ class ProfilePage extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const MyWidget(title: 'Profile'),
+      home: const ProfileShow(),
     );
   }
 }
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+class ProfileShow extends StatefulWidget {
+  const ProfileShow({Key? key}) : super(key: key);
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
-
-  static _MyWidgetState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_MyWidgetState>();
-  }
+  _ProfileShowState createState() => _ProfileShowState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController birthdayController = TextEditingController();
-  final TextEditingController ageController = TextEditingController();
-  final TextEditingController sexController = TextEditingController();
-  final TextEditingController jobController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
+class _ProfileShowState extends State<ProfileShow> {
+  late String _currentUserUID;
+  late String _profileImageUrl =''; // เพิ่มตัวแปรเก็บ URL รูปภาพโปรไฟล์
 
-  void saveDataToFirebase(BuildContext context, Userinfo userInfo) async {
-    final CollectionReference userCollection =
-        FirebaseFirestore.instance.collection('user');
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUserUID();
+    _loadProfileImage(); // เรียกใช้ฟังก์ชันเมื่อโพรไฟล์โหลดเสร็จ
+  }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void _getCurrentUserUID() {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      setState(() {
+        _currentUserUID = uid;
+      });
+      print('UID ของผู้ใช้: $_currentUserUID');
+    } else {
+      print('ไม่พบผู้ใช้ที่ล็อกอินอยู่');
+    }
+  }
+
+  // ฟังก์ชันดึง URL รูปภาพโปรไฟล์จาก Firebase Storage
+  void _loadProfileImage() async {
+    String profileImageName = '$_currentUserUID.jpg'; // ใช้ UID เป็นชื่อไฟล์ภาพ
     try {
-      await userCollection.add(userInfo.toMap());
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('ข้อมูลถูกบันทึกเรียบร้อย'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      String url = await FirebaseStorage.instance
+          .ref('profile_images/$profileImageName')
+          .getDownloadURL();
+      setState(() {
+        _profileImageUrl = url; // เก็บ URL รูปภาพ
+      });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('การบันทึกข้อมูลล้มเหลว'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      print('เกิดข้อผิดพลาดในการดึงรูปภาพ: $e');
     }
   }
 
@@ -79,14 +85,14 @@ class _MyWidgetState extends State<MyWidget> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 100,
-        backgroundColor: Color.fromARGB(255, 49, 60, 128),
+        backgroundColor: const Color.fromARGB(255, 49, 60, 128),
         title: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Profile',
+                  'ข้อมูลส่วนตัว',
                   style: TextStyle(
                     fontFamily: "Promt",
                     fontSize: 30,
@@ -97,432 +103,426 @@ class _MyWidgetState extends State<MyWidget> {
             ),
           ],
         ),
+        elevation: 0,
       ),
-      backgroundColor: Color.fromARGB(255, 49, 60, 128),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(0.0),
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 237, 237, 237),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(45),
-                    topRight: Radius.circular(45),
+      backgroundColor: const Color.fromARGB(255, 49, 60, 128),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(45),
+                  topRight: const Radius.circular(45),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    offset: Offset(0, 3),
+                    blurRadius: 5,
                   ),
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                      spreadRadius: 0,
-                      blurRadius: 0,
-                      offset: Offset(0, 3),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CircleAvatar(
+                      radius: 68,
+                      backgroundColor: Color.fromARGB(255, 183, 160, 255),
+                      child: _profileImageUrl
+                              .isNotEmpty // ตรวจสอบว่ามี URL รูปภาพหรือไม่
+                          ? ClipOval(
+                              child: Image.network(
+                                _profileImageUrl,
+                                fit: BoxFit.cover,
+                                width: 125,
+                                height: 125,
+                              ),
+                            )
+                          : Icon(Icons.camera_alt),
+                    ),
+                    StreamBuilder<DocumentSnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('user')
+                          .doc(_currentUserUID)
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (snapshot.hasError) {
+                          return Text('เกิดข้อผิดพลาด: ${snapshot.error}');
+                        }
+                        if (!snapshot.hasData || !snapshot.data!.exists) {
+                          final emptyUserData = {
+                            'name': '',
+                            'birthday': '',
+                            'sex': '',
+                            'age': '',
+                            'job': '',
+                            'address': '',
+                            'phone': '',
+                          };
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            
+                            children: [
+                              SizedBox(height: 10,),
+                              Text(
+                                'ชื่อ: ${emptyUserData['name']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'อายุ: ${emptyUserData['age']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'วันเกิด: ${emptyUserData['birthday']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'อาชีพ: ${emptyUserData['job']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'เพศ: ${emptyUserData['sex']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'ที่อยู่: ${emptyUserData['address']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'เบอร์โทร: ${emptyUserData['phone']}',
+                                style: TextStyle(
+                                  fontFamily: "Promt-Medium",
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      offset: Offset(0, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          );
+                        }
+                        final userData =
+                            snapshot.data!.data() as Map<String, dynamic>;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 10,),
+                            Text(
+                              'ชื่อ: ${userData['name']}',
+                              style: TextStyle(
+                                fontFamily: "Promt-Medium",
+                                fontSize: 20,
+                                color: Colors.black,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    offset: Offset(0, 2),
+                                    blurRadius: 3,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            // เพิ่ม Text Widgets อื่นๆ ตามฟิลด์ที่ต้องการแสดง
+                            Text(
+                              'วันเกิด: ${userData['birthday']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'เพศ: ${userData['sex']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'อายุ: ${userData['age']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'อาชีพ: ${userData['job']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'ที่อยู่: ${userData['address']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'เบอร์โทรศัพท์: ${userData['phone']}',
+                              style: TextStyle(
+                                fontFamily:
+                                    "Promt-Medium", // เปลี่ยนฟอนท์เป็น Promt-thin
+                                fontSize: 20, // ปรับขนาดข้อความ
+                                color: Colors.black, // สีข้อความ
+                                shadows: [
+                                  Shadow(
+                                    color:
+                                        Colors.grey.withOpacity(0.5), // สีเงา
+                                    offset: Offset(0, 2), // ตำแหน่งเงา
+                                    blurRadius: 3, // ขนาดของเงา
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(context,
+                                MaterialPageRoute(builder: (context) {
+                              return EditProfilePage();
+                            }));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 145, 0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 30),
+                          ),
+                          child: const Text(
+                            'แก้ไขข้อมูลส่วนตัว',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Color.fromARGB(255, 129, 90, 246),
-                        child: Icon(
-                          Icons.person,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          size: 60,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'ชื่อ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: nameController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนชื่อของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'วันเกิด',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: birthdayController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนวันเกิดของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'อายุ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: ageController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนอายุของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'เพศ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: sexController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนเพศของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'อาชีพ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: jobController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนอาชีพของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'ที่อยู่',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: addressController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนที่อยู่ของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'อีเมล',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: emailController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนอีเมลของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              'เบอร์โทร',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Promt-SemiBold",
-                              ),
-                            ),
-                          ),
-                          TextFormField(
-                            controller: phoneController,
-                            maxLines: null,
-                            keyboardType: TextInputType.multiline,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.black,
-                            ),
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0,
-                                horizontal: 15.0,
-                              ),
-                              hintText: 'ป้อนเบอร์โทรของคุณ',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                ),
-                              ),
-                              filled: true,
-                              fillColor: Color.fromARGB(255, 120, 154, 228),
-                              hintStyle: TextStyle(
-                                fontFamily: 'Promt-Thin',
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 206, 206, 206),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 5,),
-                          SizedBox(
-                            width: double.infinity,
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  Userinfo newUser = Userinfo(
-                                    name: nameController.text,
-                                    birthday: birthdayController.text,
-                                    age: ageController.text,
-                                    sex: sexController.text,
-                                    address: addressController.text,
-                                    job: jobController.text,
-                                    email: emailController.text,
-                                    phone: phoneController.text,
-                                  );
-
-                                  saveDataToFirebase(context, newUser);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 131, 193, 81),
-                                ),
-                                child: Text(
-                                  'บันทึก',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              height: 80,
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 49, 60, 128),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(45),
+                  topRight: Radius.circular(45),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 55,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const TodoPage();
+                    }));
+                  },
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

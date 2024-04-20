@@ -1,12 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project/addwork_page.dart';
 import 'package:project/setting_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'dart:async'; // นำเข้าแพ็กเกจ dart:async เพื่อใช้งานคลาส Timer
-
-
+import 'dart:async';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,16 +37,14 @@ class TodoPage extends StatefulWidget {
 
 class _TodoPageState extends State<TodoPage> {
   late Timer _timer;
-
+  late String _currentUserUID; // กำหนดให้เป็น late
 
   @override
   void initState() {
     super.initState();
     _startTimer();
-
+    _getCurrentUserUID(); // เรียกใช้ฟังก์ชั่นเพื่อดึง UID ของผู้ใช้ที่ล็อกอิน
   }
-
-  
 
   @override
   void dispose() {
@@ -56,31 +53,42 @@ class _TodoPageState extends State<TodoPage> {
   }
 
   void _startTimer() {
-  _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-    final now = DateTime.now();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final now = DateTime.now();
 
-
-    FirebaseFirestore.instance
-        .collection('activity')
-        .where('datetime', isLessThan: now)
-        .get()
-        .then((querySnapshot) {
-      if (querySnapshot.docs.isNotEmpty) {
-        querySnapshot.docs.forEach((doc) {
-          doc.reference.delete().then((_) {
-            print("รายการ ${doc.id} ถูกลบแล้ว");
-          }).catchError((error) {
-            print("เกิดข้อผิดพลาดในการลบรายการ ${doc.id}: $error");
+      FirebaseFirestore.instance
+          .collection('activity')
+          .where('datetime', isLessThan: now)
+          .where('uid',
+              isEqualTo:
+                  _currentUserUID) // เพิ่มเงื่อนไขเพื่อค้นหาเฉพาะข้อมูลของผู้ใช้ปัจจุบัน
+          .get()
+          .then((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          querySnapshot.docs.forEach((doc) {
+            doc.reference.delete().then((_) {
+              print("รายการ ${doc.id} ถูกลบแล้ว");
+            }).catchError((error) {
+              print("เกิดข้อผิดพลาดในการลบรายการ ${doc.id}: $error");
+            });
           });
-        });
-      }
+        }
+      });
     });
-  });
-}
+  }
 
-
-  Future<void> _onSelectNotification(String? payload) async {
-    // Handle notification click here
+  // ดึง UID ของผู้ใช้ที่ล็อกอิน
+  void _getCurrentUserUID() {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      setState(() {
+        _currentUserUID =
+            uid; // กำหนดค่าให้กับ _currentUserUID ใน setState เพื่อสร้าง UI ใหม่
+      });
+      print('UID ของผู้ใช้: $_currentUserUID');
+    } else {
+      print('ไม่พบผู้ใช้ที่ล็อกอินอยู่');
+    }
   }
 
   @override
@@ -209,6 +217,9 @@ class _TodoPageState extends State<TodoPage> {
                       child: StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
                             .collection('activity')
+                            .where('uid',
+                                isEqualTo:
+                                    _currentUserUID) // เพิ่มเงื่อนไขเพื่อค้นหาเฉพาะข้อมูลของผู้ใช้ปัจจุบัน
                             .orderBy('datetime')
                             .snapshots(),
                         builder: (BuildContext context,
@@ -340,29 +351,28 @@ class _TodoPageState extends State<TodoPage> {
             ),
           ),
           Positioned(
-            left: 160,
-            bottom: 35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: const Color.fromARGB(255, 154, 120, 255),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.person,
-                      size: 55,
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return const TodoPage();
-                      }));
-                    },
-                    color: const Color.fromARGB(255, 255, 255, 255),
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 55,
                   ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const TodoPage();
+                    }));
+                  },
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
-              ],
+              ),
             ),
           ),
         ],

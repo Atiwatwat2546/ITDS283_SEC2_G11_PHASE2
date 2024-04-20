@@ -27,36 +27,23 @@ class SettingPage extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        title: Column(
           children: [
-            Expanded(
-              child: Text(
-                'อติวัศว์ สารบรรณ',
-                style: TextStyle(
-                  fontFamily: "Promt",
-                  fontSize: 25,
-                  color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'การตั้งค่า',// ชื่อผู้ใช้
+                  style: TextStyle(
+                    fontFamily: "Promt",
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-                size: 40,
-              ),
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) {
-                  return SettingPage();
-                }));
-              },
+              ],
             ),
           ],
         ),
-        elevation: 0,
       ),
       backgroundColor: Color.fromARGB(255, 49, 60, 128),
       body: Stack(
@@ -92,7 +79,7 @@ class SettingPage extends StatelessWidget {
                         // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                          return ProfilePage();
+                          return ProfileShow();
                         }));
                       },
                       child: Row(
@@ -198,10 +185,12 @@ class SettingPage extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         auth.signOut().then((value) {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return FirstPage();
-                          }));
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FirstPage()),
+                            (route) => false,
+                          );
                         });
                       },
                       child: Text(
@@ -238,31 +227,30 @@ class SettingPage extends StatelessWidget {
             ),
           ),
           Positioned(
-                left: 160,
-                bottom: 35,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Color.fromARGB(255, 154, 120, 255),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.person,
-                          size: 55,
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return TodoPage();
-                          }));
-                        },
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ],
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 55,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const TodoPage();
+                    }));
+                  },
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
+            ),
+          ),
         ],
       ),
     );

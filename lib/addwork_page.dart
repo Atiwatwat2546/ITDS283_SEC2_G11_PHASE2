@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:project/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project/model/activity.dart';
 import 'package:project/todo_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   runApp(const AddworkPage());
 }
 
@@ -45,34 +43,37 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
 
-  void saveDataToFirebase(BuildContext context, Activity activity) async {
-  final CollectionReference activityCollection =
-      FirebaseFirestore.instance.collection('activity');
+  void saveDataToFirebase(
+      BuildContext context, Activity activity, String currentUserUID) async {
+    final CollectionReference activityCollection =
+        FirebaseFirestore.instance.collection('activity');
 
-  try {
-    await activityCollection.add(activity.toMap());
+    try {
+      // ใส่ UID ของผู้ใช้ลงไปในกิจกรรม
+      activity.uid = currentUserUID;
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('กิจกรรม "${activity.name}" ถูกสร้างเรียบร้อยแล้ว'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+      await activityCollection.add(activity.toMap());
 
-    // เมื่อบันทึกข้อมูลเรียบร้อยแล้ว ทำการเปลี่ยนหน้าไปยัง TodoPage()
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return TodoPage();
-    }));
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('การสร้างกิจกรรม "${activity.name}" ล้มเหลว: $e'),
-        duration: Duration(seconds: 2),
-      ),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('กิจกรรม "${activity.name}" ถูกสร้างเรียบร้อยแล้ว'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // เมื่อบันทึกข้อมูลเรียบร้อยแล้ว ทำการเปลี่ยนหน้าไปยัง TodoPage()
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return TodoPage();
+      }));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('การสร้างกิจกรรม "${activity.name}" ล้มเหลว: $e'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -338,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               final Timestamp datetimeTimestamp =
                                   Timestamp.fromDate(DateTime(
                                 selectedDate!.year,
@@ -347,6 +348,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 selectedTime!.hour,
                                 selectedTime!.minute,
                               ));
+
+                              // ดึง UID ของผู้ใช้ที่ล็อกอินเข้ามา
+                              String currentUserUID =
+                                  FirebaseAuth.instance.currentUser!.uid;
 
                               Activity newActivity = Activity(
                                 name: nameController.text,
@@ -357,9 +362,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 detail: detailController.text.isNotEmpty
                                     ? detailController.text
                                     : '',
+                                uid: currentUserUID,
                               );
 
-                              saveDataToFirebase(context, newActivity);
+                              // ส่ง UID ของผู้ใช้ไปในฟังก์ชันบันทึกข้อมูล
+                              saveDataToFirebase(
+                                  context, newActivity, currentUserUID);
 
                               // ล้างข้อมูลและข้อความ
                               nameController.clear();
@@ -404,29 +412,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Positioned(
-                left: 160,
-                bottom: 35,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Color.fromARGB(255, 154, 120, 255),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.person,
-                          size: 55,
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return TodoPage();
-                          }));
-                        },
-                        color: Color.fromARGB(255, 255, 255, 255),
+                left: 0,
+                right: 0,
+                bottom: 40,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: CircleAvatar(
+                    radius: 35,
+                    backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.person,
+                        size: 55,
                       ),
+                      onPressed: () {
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const TodoPage();
+                        }));
+                      },
+                      color: const Color.fromARGB(255, 255, 255, 255),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

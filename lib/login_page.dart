@@ -1,22 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:project/model/profile.dart';
 import 'package:project/register_page.dart';
 import 'package:project/todo_page.dart';
-
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: 'Login Page',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
-    home: LoginPage(),
-  ));
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,8 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   Profile profile = Profile();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-
   bool _obscureText = true;
+  bool rememberMe = false; // เพิ่มตัวแปรสำหรับการจำสถานะ
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundColor: Color.fromARGB(255, 129, 90, 246),
+                            backgroundColor: Color.fromARGB(255, 134, 139, 255),
                             child: Icon(
                               Icons.person,
-                              color: const Color.fromARGB(255, 0, 0, 0),
+                              color: Color.fromARGB(255, 35, 31, 32),
                               size: 50,
                             ),
                           ),
@@ -147,10 +137,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           SizedBox(height: 10.0),
                           TextFormField(
-                            obscureText:
-                                _obscureText, // ใช้ตัวแปร _obscureText เพื่อกำหนดสถานะการแสดงหรือซ่อนรหัสผ่าน
+                            obscureText: _obscureText,
                             decoration: InputDecoration(
-                              labelText: 'รหัสผ่าน', // กำหนดข้อความใน Label
+                              labelText: 'รหัสผ่าน',
                               labelStyle: TextStyle(
                                 fontFamily: "Prompt-Thin.ttf",
                                 color: Color.fromARGB(255, 133, 133, 133),
@@ -163,19 +152,16 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               filled: true,
                               fillColor: Color.fromARGB(255, 206, 206, 206),
-                              // ใช้ GestureDetector เพื่อให้ไอคอนตาเปิดและปิดเมื่อถูกแตะ
                               suffixIcon: GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _obscureText =
-                                        !_obscureText; // สลับสถานะการแสดงหรือซ่อนรหัสผ่านเมื่อไอคอนตาถูกแตะ
+                                    _obscureText = !_obscureText;
                                   });
                                 },
                                 child: Icon(
                                   _obscureText
                                       ? Icons.visibility
-                                      : Icons
-                                          .visibility_off, // เลือกไอคอนตาตามสถานะการแสดงหรือซ่อนรหัสผ่าน
+                                      : Icons.visibility_off,
                                   color: Colors.grey,
                                 ),
                               ),
@@ -207,6 +193,11 @@ class _LoginPageState extends State<LoginPage> {
                                       return TodoPage();
                                     }));
                                   });
+                                  if (rememberMe) {
+                                    final SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setBool('rememberMe', true);
+                                  }
                                 } on FirebaseAuthException catch (e) {
                                   print(e.code);
                                   print(e.message);
@@ -214,8 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                                   if (e.code == 'invalid-credential') {
                                     message = "อีเมล หรือ รหัสผ่านไม่ถูกต้อง";
                                   } else {
-                                    message = e
-                                        .message!; // ใช้ข้อความข้อผิดพลาดที่ส่งกลับจาก Firebase
+                                    message = e.message!;
                                   }
                                   Fluttertoast.showToast(
                                     msg: message,
@@ -239,7 +229,19 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 16.0),
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: rememberMe,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    rememberMe = value!;
+                                  });
+                                },
+                              ),
+                              Text('Remember Me'),
+                            ],
+                          ),
                           GestureDetector(
                             onTap: () {
                               Navigator.pushReplacement(context,
@@ -258,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 10.0),
                           Text(
                             ' หรือ ',
                             style: TextStyle(
@@ -268,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 10.0),
                           ElevatedButton(
                             onPressed: () {
                               // โค้ดสำหรับการสมัครสมาชิก
@@ -290,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: ClipOval(
                                     child: Image.asset(
                                       'assets/google_logo.png',
-                                      width: 35, // ขนาดของโลโก้ Facebook
+                                      width: 35, // ขนาดของโลโก้ Google
                                       height: 35,
                                     ),
                                   ),
@@ -298,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left:
-                                          20), // ขยับข้อความไปทางขวาจากโลโก้ Facebook
+                                          20), // ขยับข้อความไปทางขวาจากโลโก้ Google
                                   child: Text(
                                     'ดำเนินการโดย Google',
                                     style: TextStyle(
@@ -321,7 +323,7 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 16.0),
+                          SizedBox(height: 10.0),
                           ElevatedButton(
                             onPressed: () {
                               // โค้ดสำหรับการสมัครสมาชิก

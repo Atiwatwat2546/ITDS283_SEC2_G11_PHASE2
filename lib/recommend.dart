@@ -18,28 +18,22 @@ class RecommandPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        toolbarHeight: 100,
         backgroundColor: Color.fromARGB(255, 49, 60, 128),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        title: Column(
           children: [
-            Expanded(
-              child: Text(
-                'แนะนำการใช้งาน',
-                style: TextStyle(
-                  fontFamily: "Promt",
-                  fontSize: 25,
-                  color: Colors.white,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'แนะนำการใช้งาน',
+                  style: TextStyle(
+                    fontFamily: "Promt",
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-                size: 40,
-              ),
-              onPressed: () {},
+              ],
             ),
           ],
         ),
@@ -124,43 +118,38 @@ class RecommandPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 15.0),
-                    Text(
-                        '1. เข้าสู่ระบบ',
+                    Text('1. เข้าสู่ระบบ',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
                           fontSize: 14,
                         )),
-                        Text(
+                    Text(
                         '2. กดปุ่ม " + เพิ่มงาน" เพื่อใส่กิจกรรมต่าง ๆ ที่จะต้องทำ',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
                           fontSize: 14,
-                        )
-                      ),
-                        Text(
-                        '3. ใช้ข้อมูลกิจกรรมเสร็จแล้วกดปุ่ม "บันทึก" ',
+                        )),
+                    Text('3. ใช้ข้อมูลกิจกรรมเสร็จแล้วกดปุ่ม "บันทึก" ',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
                           fontSize: 14,
                         )),
-                        Text(
-                        'หากต้องการแก้ไข หรือยกเลิกกิจกรรมที่บันทึกไป',
+                    Text('หากต้องการแก้ไข หรือยกเลิกกิจกรรมที่บันทึกไป',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Bold',
                           fontSize: 14,
                         )),
-                        Text(
-                        '1. กดกิจกรรมที่ได้บันทึกไว้',
+                    Text('1. กดกิจกรรมที่ได้บันทึกไว้',
                         style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Promt-Semidium',
                           fontSize: 14,
                         )),
-                        Text(
+                    Text(
                         '2. กดปุ่ม "แก้ไข" เพื่อทำการแก้ไขข้อมูล และกดปุ่ม "ลบ" เพื่อทำการลบข้อมูลที่ไม่ต้องการ',
                         style: TextStyle(
                           color: Colors.black,
@@ -188,30 +177,28 @@ class RecommandPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 160,
-            bottom: 35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Color.fromARGB(255, 154, 120, 255),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.person,
-                      size: 55,
-                    ),
-                    onPressed: () {
-                      // เพิ่มโค้ดสำหรับการเข้าสู่ระบบที่นี่
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) {
-                        return TodoPage();
-                      }));
-                    },
-                    color: Color.fromARGB(255, 255, 255, 255),
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 55,
                   ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const TodoPage();
+                    }));
+                  },
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
-              ],
+              ),
             ),
           ),
         ],

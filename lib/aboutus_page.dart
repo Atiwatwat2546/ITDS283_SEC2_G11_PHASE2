@@ -151,31 +151,30 @@ class AboutusPage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: 160,
-                bottom: 35,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 35,
-                      backgroundColor: Color.fromARGB(255, 154, 120, 255),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.person,
-                          size: 55,
-                        ),
-                        onPressed: () {
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (context) {
-                            return TodoPage();
-                          }));
-                        },
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                  ],
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: CircleAvatar(
+                radius: 35,
+                backgroundColor: const Color.fromARGB(255, 154, 120, 255),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.person,
+                    size: 55,
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const TodoPage();
+                    }));
+                  },
+                  color: const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
+            ),
+          ),
             ],
           ),
         ],

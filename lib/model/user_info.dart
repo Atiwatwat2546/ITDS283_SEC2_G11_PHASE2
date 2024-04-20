@@ -1,5 +1,3 @@
-
-
 class Userinfo {
   final String name;
   final String birthday;
@@ -7,8 +5,8 @@ class Userinfo {
   final String age;
   final String job;
   final String address;
-  final String email;
   final String phone;
+  String uid;
 
   Userinfo({
     required this.name,
@@ -17,8 +15,8 @@ class Userinfo {
     required this.age,
     required this.job,
     required this.address,
-    required this.email,
     required this.phone,
+    required this.uid,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,9 +27,8 @@ class Userinfo {
       'age': age,
       'job': job,
       'address': address,
-      'email': email,
       'phone': phone,
+      'uid': uid,
     };
   }
 }
-
