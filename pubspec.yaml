@@ -25,6 +25,7 @@ dependencies:
   fluttertoast: ^8.2.5
   flutter_local_notifications: ^8.2.0
   firebase_messaging: ^14.8.2
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   yaml: ^3.0.0
