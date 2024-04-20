@@ -27,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   Profile profile = Profile();
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
-  
-  bool _obscureText  = true;
+
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -146,47 +146,48 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                           SizedBox(height: 10.0),
-                         
-                         
                           TextFormField(
-  obscureText: _obscureText, // ใช้ตัวแปร _obscureText เพื่อกำหนดสถานะการแสดงหรือซ่อนรหัสผ่าน
-  decoration: InputDecoration(
-    labelText: 'รหัสผ่าน', // กำหนดข้อความใน Label
-    labelStyle: TextStyle(
-      fontFamily: "Prompt-Thin.ttf",
-      color: Color.fromARGB(255, 133, 133, 133),
-    ),
-    contentPadding: EdgeInsets.only(left: 20.0, bottom: 30),
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(40.0),
-      borderSide: BorderSide.none,
-    ),
-    filled: true,
-    fillColor: Color.fromARGB(255, 206, 206, 206),
-    // ใช้ GestureDetector เพื่อให้ไอคอนตาเปิดและปิดเมื่อถูกแตะ
-    suffixIcon: GestureDetector(
-      onTap: () {
-        setState(() {
-          _obscureText = !_obscureText; // สลับสถานะการแสดงหรือซ่อนรหัสผ่านเมื่อไอคอนตาถูกแตะ
-        });
-      },
-      child: Icon(
-        _obscureText ? Icons.visibility : Icons.visibility_off, // เลือกไอคอนตาตามสถานะการแสดงหรือซ่อนรหัสผ่าน
-        color: Colors.grey,
-      ),
-    ),
-  ),
-  validator: MultiValidator([
-    RequiredValidator(errorText: "โปรดป้อนรหัสผ่าน"),
-  ]),
-  // Save logic for the field
-  onSaved: (password) {
-    profile.password = password;
-  },
-),
-
-
-                          
+                            obscureText:
+                                _obscureText, // ใช้ตัวแปร _obscureText เพื่อกำหนดสถานะการแสดงหรือซ่อนรหัสผ่าน
+                            decoration: InputDecoration(
+                              labelText: 'รหัสผ่าน', // กำหนดข้อความใน Label
+                              labelStyle: TextStyle(
+                                fontFamily: "Prompt-Thin.ttf",
+                                color: Color.fromARGB(255, 133, 133, 133),
+                              ),
+                              contentPadding:
+                                  EdgeInsets.only(left: 20.0, bottom: 30),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: Color.fromARGB(255, 206, 206, 206),
+                              // ใช้ GestureDetector เพื่อให้ไอคอนตาเปิดและปิดเมื่อถูกแตะ
+                              suffixIcon: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _obscureText =
+                                        !_obscureText; // สลับสถานะการแสดงหรือซ่อนรหัสผ่านเมื่อไอคอนตาถูกแตะ
+                                  });
+                                },
+                                child: Icon(
+                                  _obscureText
+                                      ? Icons.visibility
+                                      : Icons
+                                          .visibility_off, // เลือกไอคอนตาตามสถานะการแสดงหรือซ่อนรหัสผ่าน
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            validator: MultiValidator([
+                              RequiredValidator(errorText: "โปรดป้อนรหัสผ่าน"),
+                            ]),
+                            // Save logic for the field
+                            onSaved: (password) {
+                              profile.password = password;
+                            },
+                          ),
                           SizedBox(height: 10.0),
                           ElevatedButton(
                             onPressed: () async {
