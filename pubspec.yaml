@@ -28,6 +28,7 @@ dependencies:
   image_picker: ^1.1.0
   firebase_storage: ^11.7.2
   shared_preferences: ^2.2.3
+  flutter_launcher_icons: "^0.13.1"
   
 
 dev_dependencies:
@@ -36,23 +37,37 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/new_icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/new_icon.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/new_icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/new_icon.png"
+
 flutter:
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/facebook_logo.png
     - assets/google_logo.png
     - assets/add.PNG
     - assets/new_icon.png
-  #   - images/a_dot_ham.jpeg
-
   fonts:
     - family: Inter
       fonts:
         - asset: fonts/Inter-ExtraBold.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+
     - family: Promt
       fonts:
         - asset: fonts/Prompt-Bold.ttf
@@ -69,5 +84,3 @@ flutter:
     - family: Promt-Medium
       fonts:
         - asset: fonts/Prompt-Medium.ttf
-
-  #         weight: 700
