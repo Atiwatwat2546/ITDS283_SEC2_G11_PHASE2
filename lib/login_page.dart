@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:project/model/profile.dart';
-import 'package:project/register_page.dart';
-import 'package:project/todo_page.dart';
+import 'package:PW/model/profile.dart';
+import 'package:PW/register_page.dart';
+import 'package:PW/todo_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {

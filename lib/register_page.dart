@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:project/login_page.dart';
-import 'package:project/model/profile.dart';
+import 'package:PW/login_page.dart';
+import 'package:PW/model/profile.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -241,14 +241,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ElevatedButton(
                               onPressed: () async {
                                 formKey.currentState!.save();
-                                if (profile.password != profile.checkpassword) {
-                                  print("Passwords don't match");
-                                  Fluttertoast.showToast(
-                                    msg: "รหัสผ่านไม่ตรงกัน",
-                                    gravity: ToastGravity.CENTER,
-                                  );
-                                } else {
-                                  print("Passwords match");
+                                
+                                  
                                   if (formKey.currentState!.validate()) {
                                     print(
                                         "email = ${profile.email} password = ${profile.password}");
@@ -288,7 +282,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       );
                                     }
                                   }
-                                }
+                                
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:

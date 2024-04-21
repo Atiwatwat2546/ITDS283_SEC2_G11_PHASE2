@@ -1,4 +1,4 @@
-name: project
+name: PW
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -23,7 +23,6 @@ dependencies:
   form_field_validator: ^1.1.0
   firebase_auth: ^4.19.1
   fluttertoast: ^8.2.5
-  flutter_local_notifications: ^8.2.0
   firebase_messaging: ^14.8.2
   google_sign_in: ^6.2.1
   image_picker: ^1.1.0
@@ -45,6 +44,7 @@ flutter:
     - assets/facebook_logo.png
     - assets/google_logo.png
     - assets/add.PNG
+    - assets/new_icon.png
   #   - images/a_dot_ham.jpeg
 
   fonts:
