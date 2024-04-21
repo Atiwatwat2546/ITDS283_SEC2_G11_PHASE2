@@ -7,7 +7,7 @@ import 'package:project/report_page.dart';
 import 'package:project/todo_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+void main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Todo Page',
@@ -33,7 +33,7 @@ class SettingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'การตั้งค่า',// ชื่อผู้ใช้
+                  'การตั้งค่า', // ชื่อผู้ใช้
                   style: TextStyle(
                     fontFamily: "Promt",
                     fontSize: 30,
@@ -182,29 +182,34 @@ class SettingPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 170.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        auth.signOut().then((value) {
-                          Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FirstPage()),
-                            (route) => false,
-                          );
-                        });
-                      },
-                      child: Text(
-                        'ออกจากระบบ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Promt',
-                          fontSize: 25,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          auth.signOut().then((value) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FirstPage()),
+                              (route) => false,
+                            );
+                          });
+                        },
+                        child: Text(
+                          'ออกจากระบบ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'Promt',
+                            fontSize: 25,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 50, 39, 39),
+                          minimumSize: Size(double.infinity, 60),
                         ),
                       ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 50, 39, 39),
-                        minimumSize: Size(double.infinity, 60),
-                      ),
+                      widthFactor: 1.0,
                     ),
                   ],
                 ),
@@ -241,7 +246,7 @@ class SettingPage extends StatelessWidget {
                     size: 55,
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context,
+                    Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return const TodoPage();
                     }));

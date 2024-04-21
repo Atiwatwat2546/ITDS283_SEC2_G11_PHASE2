@@ -211,7 +211,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           // แสดง Snackbar เพื่อแจ้งเตือนผู้ใช้
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('กรุณาระบุปัญหาหรือความคิดเห็นเพิ่มเติม'),
+                              content: Text(
+                                  'กรุณาระบุปัญหาหรือความคิดเห็นเพิ่มเติม'),
                               duration: Duration(seconds: 2),
                             ),
                           );
@@ -280,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         size: 55,
                       ),
                       onPressed: () {
-                        Navigator.pushReplacement(context,
+                        Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return const TodoPage();
                         }));

@@ -128,6 +128,7 @@ class _TodoPageState extends State<TodoPage> {
             ),
           ],
         ),
+        automaticallyImplyLeading: false, // ไม่แสดงปุ่มย้อนกลับ
         elevation: 0,
       ),
       backgroundColor: const Color.fromARGB(255, 49, 60, 128),
