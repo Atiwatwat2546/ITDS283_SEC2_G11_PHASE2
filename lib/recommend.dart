@@ -93,7 +93,7 @@ class RecommandPage extends StatelessWidget {
                         'TO DO APP สร้างขึ้นมาเพื่อช่วยให้ผู้ใช้สามารถจัดการงานและกิจกรรมต่างๆ ได้อย่างมีระเบียบ และสะดวกสบาย',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     SizedBox(height: 10.0),
@@ -121,39 +121,39 @@ class RecommandPage extends StatelessWidget {
                     Text('1. เข้าสู่ระบบ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     Text(
                         '2. กดปุ่ม " + เพิ่มงาน" เพื่อใส่กิจกรรมต่าง ๆ ที่จะต้องทำ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     Text('3. ใช้ข้อมูลกิจกรรมเสร็จแล้วกดปุ่ม "บันทึก" ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     Text('หากต้องการแก้ไข หรือยกเลิกกิจกรรมที่บันทึกไป',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Bold',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     Text('1. กดกิจกรรมที่ได้บันทึกไว้',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                     Text(
                         '2. กดปุ่ม "แก้ไข" เพื่อทำการแก้ไขข้อมูล และกดปุ่ม "ลบ" เพื่อทำการลบข้อมูลที่ไม่ต้องการ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Promt-Semidium',
+                          fontFamily: 'Promt-Medium',
                           fontSize: 14,
                         )),
                   ],

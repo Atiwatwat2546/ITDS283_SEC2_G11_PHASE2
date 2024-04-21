@@ -77,6 +77,7 @@ class AboutusPage extends StatelessWidget {
                       'เวอร์ชั่น 1.0.0',
                       style: TextStyle(
                         fontSize: 18.0,
+                        fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
@@ -85,13 +86,14 @@ class AboutusPage extends StatelessWidget {
                       'ผู้พัฒนา:',
                       style: TextStyle(
                         fontSize: 14.0,
+                        fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       'นายอติวัศว์ สารบรรณ และ นางสาวศิริลักษณ ์ภู่สุวรรณณรงค',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 12.0,fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
@@ -99,7 +101,7 @@ class AboutusPage extends StatelessWidget {
                     Text(
                       'ข้อตกลงการใช้งาน: ขอบคุณที่ใช้งานแอพพลิเคชันของเรา! แอพพลิเคชันนี้ถูกพัฒนาขึ้นโดย (PW TO-DO APP) เพื่อช่วยให้คุณจัดการกับงานและกิจกรรมของคุณได้อย่างมีประสิทธิภาพ',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 12.0,fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
@@ -107,14 +109,14 @@ class AboutusPage extends StatelessWidget {
                     Text(
                       'ข้อมูลเพิ่มเติม:',
                       style: TextStyle(
-                        fontSize: 14.0,
+                        fontSize: 14.0,fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
                     Text(
                       'แอพพลิเคชันนี้มีเป้าหมายในการสร้างประสบการณ์การใช้งานที่เรียบง่ายและมีประสิทธิภาพสำหรับผู้ใช้ หากคุณมีข้อเสนอแนะหรือคำแนะนำใดๆ เกี่ยวกับการปรับปรุงแอพพลิเคชัน โปรดติดต่อเราที่ (อีเมล์ติดต่อหรือเว็บไซต์ของบริษัท)',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 12.0,fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
@@ -122,7 +124,7 @@ class AboutusPage extends StatelessWidget {
                     Text(
                       'ข้อความลิขสิทธิ์: สงวนลิขสิทธิ์ © ปี (2567) (PW TO-DO APP)',
                       style: TextStyle(
-                        fontSize: 12.0,
+                        fontSize: 12.0,fontFamily: 'Promt-Medium',
                         color: Colors.black,
                       ),
                     ),
