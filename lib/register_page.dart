@@ -241,8 +241,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             ElevatedButton(
                               onPressed: () async {
                                 formKey.currentState!.save();
-                                
-                                  
+                                if (profile.password == profile.checkpassword) {
                                   if (formKey.currentState!.validate()) {
                                     print(
                                         "email = ${profile.email} password = ${profile.password}");
@@ -282,7 +281,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       );
                                     }
                                   }
-                                
+                                } else {
+                                  String message = "รหัสผ่านไม่ตรงกัน";
+                                  Fluttertoast.showToast(
+                                    msg: message,
+                                    gravity: ToastGravity.CENTER,
+                                  );
+                                }
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
